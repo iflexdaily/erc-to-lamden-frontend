@@ -1,0 +1,91 @@
+
+<script>
+    import { checkTokenBalanceFunction, token_selected } from '../stores/lamden'
+    import { projectConf } from "../conf.js";
+    let conf = projectConf["testnet"];
+
+    let set_token = function() {
+        let token = document.getElementById("tokenNameDropDown").value;
+        token_selected.set(token)
+        $checkTokenBalanceFunction(token)
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
+
+</script>
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-title">Select Token</div>
+      <select
+        class="form-control modal-select"
+        name="tokenName"
+        id="tokenNameDropDown"
+      >
+        {#each conf.ethereum.tokens as token}
+          <option value={token.name}>{token.name}</option>
+        {/each}
+      </select>
+      <button on:click={() => set_token()}>
+          Choose
+      </button>
+    </div>
+  
+  </div>
+
+  <style>
+    
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    
+    /* Modal Content */
+    .modal-content {
+        background-color: #151515;
+    box-shadow: 0px 1px 4px 8px #00000038;
+    margin: auto;
+    padding: 20px;
+    border: none;
+    border-radius: .25rem;
+    width: 80%;
+    max-width: 20rem;
+    }
+    .modal-title {
+        font-size: larger;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 2rem;
+    }
+    .modal-select {
+        width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    }
+    /* The Close Button */
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    </style>
