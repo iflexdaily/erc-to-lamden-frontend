@@ -97,12 +97,15 @@
     });
     document.dispatchEvent(new CustomEvent("lamdenWalletSendTx", { detail }));
   }
+
 </script>
 
-<main>
+<main style="width:100%">
+  <div></div>
   {#if $connected_eth && $connected_lwc}
     <Connect />
   {:else}
     <Init />
   {/if}
+
 </main>

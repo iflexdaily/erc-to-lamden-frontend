@@ -4,10 +4,11 @@ import BN from 'bignumber.js'
 export const lamdenWalletInfo = writable(undefined);
 export const tauBalance = writable(new BN(0));
 export const ethBalance = writable(new BN(0));
-export const currentNetwork = writable(null);
+export const currentNetwork = writable('mainnet');
 export const lamden_origin = writable(false)
 export const token_selected = writable(null)
 export const tokenBalance = writable(null)
+export const popup_modal = writable(null)
 export const eth_token_balance = writable(null)
 export const lamden_token_balance = writable(null)
 export const checkTokenBalanceFunction = writable(null)

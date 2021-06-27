@@ -11,8 +11,7 @@ async function checkTokenBalance(event) {
                     method: "GET",
                 }
             );
-            console.log(res)
-            if (res.status === 200) {
+             if (res.status === 200) {
                 const value = (await res.json()).value;
                 if (value) {
                     if (value.__fixed__) balance = new BN(value.__fixed__)
@@ -64,10 +63,8 @@ const sendApproval = (amountToApprove) => new Promise(resolve => {
         },
         stampLimit: conf.lamden.stamps.approval,
     };
-console.log($lwc)
-    $lwc.sendTransaction(txInfo, async (txResults) => {
-        console.log(txResults)
-        if (txResults.status === "Transaction Cancelled") {
+     $lwc.sendTransaction(txInfo, async (txResults) => {
+         if (txResults.status === "Transaction Cancelled") {
             message = "Transaction canceled by user."
             resolve(false)
         }
@@ -105,8 +102,7 @@ const sendBurn = (token, amount) => new Promise(resolve => {
     };
 
     $lwc.sendTransaction(txInfo, async (txResults) => {
-        console.log(txResults)
-        if (txResults.status === "Transaction Cancelled") {
+         if (txResults.status === "Transaction Cancelled") {
             message = "Transaction canceled by user."
         }else{
             if (txResults.data) {

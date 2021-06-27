@@ -1,6 +1,8 @@
 const DOMAIN_NAME = "https://www.lamdenlink.com"
 
 const site = {
+    maintenance: false,
+    maintenanceVk: "e9a7660ec5d9a79777529e9aa0a234aa2f12ed276c74cf65f5447f902095d335",
     hostname: DOMAIN_NAME,
     title: "Lamden Link - Token Bridge",
     description: "A cross-chain token bridge from Lamden to Ethereum.",
@@ -37,7 +39,7 @@ const mainnet = {
         chainId: 1,
         networkName: "Ethereum Mainnet",
         clearingHouse: {
-            address: '0xbc1f89f2524c3c827e236879d243fdbc5593ca51',
+            address: '0xF881aC8E0BAe5FCFE125e88c5F90A693aF3EA8Cb',
             abi: [
                 {
                   "anonymous": false,
@@ -641,7 +643,7 @@ const testnet = {
         chainId: 42,
         networkName: "Kovan Test Network",
         clearingHouse: {
-            address: '0x1b8AFdf00eac15B45bA38FB1c5e92037442Ed3bA',
+            address: '0xF69Fae70CC5Af8f3A8DE496Bf06C6bC021baDea0',
             abi: [
                 {
                     "inputs": [

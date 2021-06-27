@@ -16,25 +16,19 @@
   let connected_eth = connected;
 
   onMount(() => {
-    console.log($lwc);
-    document.addEventListener("lamdenWalletSet", (event) => {
-      console.log($lwc);
-      console.log(event);
+     document.addEventListener("lamdenWalletSet", (event) => {
+ 
       if ($lwc) {
-        console.log("#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        $lwc.walletIsInstalled().then((installed) => {
+         $lwc.walletIsInstalled().then((installed) => {
           if (!installed) {
             walletErrorMessage = "Lamden wallet extension not found";
           }
         });
-        console.log(walletErrorMessage);
-        $lwc.events.on("newInfo", handleNewInfo);
+         $lwc.events.on("newInfo", handleNewInfo);
         if ($lwc.locked) {
           walletErrorMessage = "Please unlock your lamden wallet";
         }
-        else {
-          console.log('pooped')
-        }
+ 
         return () => {
           $lwc.events.removeListener("newInfo", handleNewInfo);
         };
@@ -48,26 +42,25 @@
   const handleNewInfo = (data) => {
     $lamdenWalletInfo = data;
     const { errors } = data;
-    console.log(errors)
-    if (errors && errors.length > 0) {
+     if (errors && errors.length > 0) {
       for (const error of errors) {
         if (error.includes("You must be an authorized dApp")) {
-          walletErrorMessage = "Please authorize the dApp";
+          // to hide inital message
+          //walletErrorMessage = "Please authorize the dApp";
+          walletErrorMessage = "";
         } else if (error.includes("is Locked")) {
           walletErrorMessage = "Please unlock your lamden wallet";
         } else if (error.includes("User rejected")) {
           walletErrorMessage =
             "Connection Rejected. Refresh page to try again.";
         } else {
-          console.log(error);
-        }
+         }
       }
     } else {
       
       console.log("connected");
     }
-    console.log(walletErrorMessage)
-  };
+   };
 
   
 </script>
@@ -89,6 +82,7 @@
         <Alert text={"METAMASK CONNECTED"} isError={false}/>
       {/if}
       {#if !$connected_lwc}
+
       <Button
         text={connect_lamden_wallet_button.title}
         clicked={connect_lamden_wallet_button.clicked}
@@ -102,5 +96,5 @@
 </div>
 
 <style>
-
+ 
 </style>

@@ -14,7 +14,7 @@
   
   <style>
       .container {
-          width: 12rem;
+          width: 6rem;
       }
   </style>
   

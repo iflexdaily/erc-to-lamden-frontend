@@ -14,6 +14,7 @@
   .loader-container {
     display: block;
     float: left;
+          margin-left: .85rem;
   }
   .sk-folding-cube {
   width: 1rem;

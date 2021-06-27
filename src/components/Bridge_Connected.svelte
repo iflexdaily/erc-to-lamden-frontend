@@ -6,7 +6,7 @@
   import Input from "./Input.svelte";
   import NetworkSelection from "./NetworkSelection.svelte";
   import Button from "./Button.svelte";
-  import Popup from './Popup.svelte'
+  import Popup from "./Popup.svelte";
   import { onMount } from "svelte";
   //import Alert from "../components/alert.svelte";
   import { projectConf } from "../conf.js";
@@ -16,7 +16,7 @@
     checkLamdenBalance,
     network_to,
     network_from,
-    set_swap_func
+    set_swap_func, connect_lamden_wallet_button, connect_metamask_button
   } from "../js/utils";
   import { chainData } from "svelte-web3";
   import {
@@ -28,12 +28,14 @@
     message,
     success,
     status,
-    resume_burn
+    resume_burn,
+    currentNetwork,
+    token_selected
   } from "../stores/lamden";
 
   let tokenName = null;
   $: selectedToken = tokenName;
-  let conf = projectConf["testnet"];
+  let conf = projectConf[$currentNetwork];
 
   $: buttonDisabled =
     $chainData.chainId !== conf.ethereum.chainId ||
@@ -42,16 +44,42 @@
   chainData.subscribe((current) => checkChain(current));
 
   onMount(async () => {
-    console.log($chainData);
-    checkChain($chainData);
+     checkChain($chainData);
     checkETHBalance();
     checkLamdenBalance();
-    console.log($ethBalance, $tauBalance);
-  });
+   });
+
+  currentNetwork.set("mainnet");
+  localStorage.setItem('current_network', "mainnet")
+
+  let clicked = function (network) {
+     if (network == "mainnet") {
+      localStorage.setItem('current_network', "testnet")
+      currentNetwork.set("testnet");
+     }
+    else {
+      currentNetwork.set("mainnet");
+      localStorage.setItem('current_network', "mainnet")
+    }
+    connect_lamden_wallet_button.clicked()
+    connect_metamask_button.clicked()
+    checkLamdenBalance()
+    checkETHBalance()
+    if ($checkTokenBalanceFunction) {
+      $checkTokenBalanceFunction($token_selected);
+    }   
+  };
+
+  let setTestnetColor = function (network) {
+     let base_styles = "font-weight: 700;font-size: 1rem;color:";
+    if (network == "testnet") return base_styles + "#89ed5b";
+    else return base_styles + "#ff0000";
+  };
+  
 </script>
 
 <div class="bridge-connected">
-  <Popup/>
+  <Popup />
   <Header
     title={"Bridge"}
     description={"You're connected to the bridge and good to go."}
@@ -74,42 +102,84 @@
       <NetworkSelection direction={"To"} network={network_to($lamden_origin)} />
     </div>
     {#if !$resume_burn}
-      <div class="container">
+      <div class="amount container">
         <DropDown network={network_from($lamden_origin)} />
       </div>
-      <div class="container">
-        <Input title={'Amount'}/>
+      <div class="amount container">
+        <Input title={"Amount"} /> 
       </div>
     {:else}
-    <div class="container">
-      <Input title={'Lamden BURN Transaction Hash'}/>
-    </div>
+      <div class="container">
+        <Input title={"Lamden BURN Transaction Hash"} />
+      </div>
     {/if}
     <div class="container" style="margin-top:1rem">
+      <Button
+        text={`SEND TOKENS TO ${network_to($lamden_origin).toUpperCase()}`}
+        clicked={""}
+      />
 
-    <Button
-      text={`SEND TOKENS TO ${network_to($lamden_origin).toUpperCase()}`}
-      clicked={""}
-    />
+      <div class="boxes" style="float:right;margin:1.25rem">
+        <input type="checkbox" id="box-1" on:click={clicked($currentNetwork)} />
+        <label for="box-1" style={setTestnetColor($currentNetwork)}
+          >Testnet</label
+        >
+      </div>
     </div>
   </form>
 </div>
 
 <style>
-  .loading {
+
+  /*Page styles*/
+  .amount {
+    width: 70%;
+  }
+  /*Checkboxes styles*/
+  input[type="checkbox"] {
     display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(249, 249, 249, 0.9);
-  }
-  .is-loading {
-    display: block;
-  }
-  .status {
-    margin: 0;
   }
 
+  input[type="checkbox"] + label {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 20px;
+    font: 14px/20px "Open Sans", Arial, sans-serif;
+    color: #ddd;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  input[type="checkbox"] + label:last-child {
+    margin-bottom: 0;
+  }
+
+  input[type="checkbox"] + label:before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #f3f3f3;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+    -webkit-transition: all 0.12s, border-color 0.08s;
+    transition: all 0.12s, border-color 0.08s;
+  }
+
+  input[type="checkbox"]:checked + label:before {
+    width: 10px;
+    top: -5px;
+    left: 5px;
+    border-radius: 0;
+    opacity: 1;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
 </style>

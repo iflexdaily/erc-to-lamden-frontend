@@ -1,5 +1,10 @@
+<style>
+    .banner {
+        border-radius: .25rem;
+    }
+</style>
 <div class="svg-container">
-    <svg viewBox="0 0 1105 272" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg class="banner" viewBox="0 0 1105 272" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <rect width="1105" height="272" fill="url(#pattern0)"/>
     <defs>
     <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">

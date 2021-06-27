@@ -41,10 +41,5 @@
     font-size: smaller;
 
   }
-  .error {
-    color: #FF0000
-  }
-  .success{
-    color: #89ED5B;
-  }
+
 </style>

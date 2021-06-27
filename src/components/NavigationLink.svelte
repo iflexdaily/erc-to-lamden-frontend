@@ -7,11 +7,19 @@
 
 
 <div style="text-align: center;">
-    <a on:click={href} href={'#'} target="_blank" style="color:white">{link}</a>
+    <a on:click={href} href={'#'} target="" class="nav-link" >{link}</a>
 </div>
 
 
 <style>
+
+    .nav-link {
+        color: #e0e0e0;
+        text-decoration: none;
+    }
+    .nav-link:hover {
+        color: white;
+    }
 
 </style>
 

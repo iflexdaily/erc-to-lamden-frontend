@@ -8,29 +8,24 @@
     checkTokenBalanceFunction,
     token_selected,
     eth_token_balance,
-    lamden_token_balance
+    lamden_token_balance,
+    popup_modal
   } from "../stores/lamden";
-  import { checkEthereumTokenBalance, checkLamdenTokenBalance } from '../js/utils'
+  import {
+    checkEthereumTokenBalance,
+    checkLamdenTokenBalance,
+  } from "../js/utils";
+  import DropDownArrow from "./DropDownSVG.svelte";
 
   export let network;
 
-
-
   let current_network;
   let refresher = function (network) {
-    console.log(3);
-    try {
-      if (current_network && current_network != network) {
-        let dropdown = document.getElementById("tokenNameDropDown");
-        dropdown.selectedIndex = "0";
-        console.log(current_network, network, dropdown);
-      }
-      tokenName = null;
-      current_network = network;
-      return "";
-    } catch {
-      return "";
-    }
+     if (current_network && current_network != network) {
+       token_selected.set(null);
+     }
+    current_network = network;
+    return "";
   };
   function checkTokenBalance(network) {
     let check_func;
@@ -40,11 +35,11 @@
       check_func = checkLamdenTokenBalance;
     }
     checkTokenBalanceFunction.set(check_func);
-    
   }
 
   let openModal = function (network) {
-    checkTokenBalance(network)
+    checkTokenBalance(network);
+    popup_modal.set('select')
     var modal = document.getElementById("myModal");
 
     var span = document.getElementsByClassName("close")[0];
@@ -61,23 +56,24 @@
       }
     };
   };
+
+  $: arrow_color = '#888888'
+
+
 </script>
 
 <div>
   <fieldset class="bridge-field field-drop">
     <legend class="field-label">Token Name</legend>
+    {refresher(network)}
 
-    <div class="drop-down">
-      {#if ($token_selected)}
-      <div>Selected: {$token_selected}</div>
-      <div style="width: 30%;">
-        <button on:click={() => openModal(network)}> Change </button>
-      </div>
+    <div class="drop-down" on:click={() => openModal(network)}>
+      {#if $token_selected}
+      <div class="drop-down-text">{$token_selected}</div>
       {:else}
-      <button on:click={() => openModal(network)}> Select </button>
+        <div class="drop-down-text">Select Token</div>
       {/if}
-      
-      {refresher(network)}
+      <DropDownArrow/>
     </div>
   </fieldset>
   {#if $token_selected}
@@ -101,5 +97,20 @@
   .token-balance {
     padding-left: 1rem;
     padding-top: 0.5rem;
+  }
+  .drop-down {
+    width: 100%;
+    height: 3rem;
+    display: grid;
+    grid-template-columns: 6fr 1fr;
+  }
+  .drop-down-text {
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+    cursor: pointer;
+  }
+  .drop-down:hover {
+    color: white;
   }
 </style>

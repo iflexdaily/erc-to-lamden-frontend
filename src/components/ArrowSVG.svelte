@@ -4,9 +4,11 @@
 
   let changeNetwork = function() {
     if ($lamden_origin) lamden_origin.set(false)
-    else lamden_origin.set(true)
-    console.log($lamden_origin)
-  }
+    else {
+      lamden_origin.set(true);
+      
+    }
+   }
 </script>
 
 <div class="arrow-container">

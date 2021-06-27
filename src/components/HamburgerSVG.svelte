@@ -1,4 +1,26 @@
-<div class="hamburger-container">
+<script>
+
+  let openMobileMenu = function() {
+    var modal = document.getElementById("mobileMenu");
+
+    var span = document.getElementsByClassName("mobile-close")[0];
+
+    modal.style.display = "block";
+
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  }
+
+</script>
+
+<div class="hamburger-container" on:click={() => openMobileMenu()}>
   <svg
     width="27"
     height="18"

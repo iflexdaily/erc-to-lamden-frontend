@@ -44,6 +44,7 @@ export default {
 			compact: true,
 		  }),
 		svelte({
+			hydratable: true,
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
 				// enable run-time checks when not in production

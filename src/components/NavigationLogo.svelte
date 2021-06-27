@@ -1,8 +1,14 @@
 <script>
 import Logo from './TauSVG.svelte'
+
+let returnHome = function() {
+    window.history.pushState("", "", "/")
+    window.open("/", "_self")
+    return ""
+  }
 </script>
 
-<div class="nav-logo">
+<div class="nav-logo" on:click={() => returnHome()}>
     <Logo/>
     <div class="page-header-text">
         <div class="page-header">
@@ -24,5 +30,7 @@ import Logo from './TauSVG.svelte'
     margin-top: .25rem;
     font-size: x-small;
 }
-
+.nav-logo {
+    cursor: pointer;
+}
 </style>
